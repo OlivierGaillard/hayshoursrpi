@@ -30,3 +30,7 @@ For sample
 ### Flask template
 
 - `api.html`
+
+## Github
+
+[Hayshours source](https://github.com/OlivierGaillard/hayshoursrpi)
