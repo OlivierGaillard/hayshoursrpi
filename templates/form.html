@@ -1,0 +1,17 @@
+<h1>Super Calculator</h1>
+<h2>Purpose</h2>
+<p>You can enter below the time you enjoyed/suffered your work...</p>
+<h3>Fixed hardcoded Start Time</h3>
+<p>Your start time is fixed, hard hardcoded to 07:30.</p>
+
+<form action="/calc" method="post">
+  <label for="elapsed">Decimal Time:</label>
+  <input type="text" name="elapsed" placeholder="8.50"
+    pattern="^\d{1,2}(\.\d{1,2})?$" value=""><br>
+  <input type="submit" value="End Hour"></button>
+</form>
+{% if endHour %}
+<p>Your decimal time: {{ elapsed }}.<br>
+  You quitted at {{ endHour}}</p>
+{% endif %}
+<p>The API to get the endhour is <a href="/end/8.0">here</a></p>
