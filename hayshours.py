@@ -15,7 +15,7 @@ class HaysHours(object):
         self.db = db
 
     def getEnd(self, elapsed):
-        if len(elapsed) == 0:
+        if len(elapsed) == 0 or elapsed == '0':
             return ""
         elapsed = float(elapsed)
         end_hour_dec = self.start_hour + elapsed
@@ -38,9 +38,11 @@ class HaysHours(object):
         return result
 
     def saveResult(self, result):
+        '''Save the quitting time h:m:s'''
         self.db.save(result)
 
     def getLastSaved(self):
+        '''Return the last quitting time h:m:s'''
         return self.db.readLast()
 
 

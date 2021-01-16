@@ -4,6 +4,10 @@
 <h3>Fixed hardcoded Start Time</h3>
 <p>Your start time is fixed, hard hardcoded to 07:30.</p>
 
+{% if lastHourSaved %}
+<p>Your last quitting time was {{ lastHourSaved }}</p>
+{% endif %}
+
 <form action="/calc" method="post">
   <label for="elapsed">Decimal Time:</label>
   <input type="text" name="elapsed" placeholder="8.50"
