@@ -11,6 +11,9 @@ class HaysHours(object):
     def __init__(self):
         self.start_hour = 7.5
 
+    def set_db(self, db):
+        self.db = db
+
     def getEnd(self, elapsed):
         if len(elapsed) == 0:
             return ""
@@ -31,7 +34,14 @@ class HaysHours(object):
         mn = '{:02.0f}'.format(minutes)
         sc = '{:02.0f}'.format(seconds)
         result = '{}:{}:{}'.format(hh, mn, sc)
+        self.saveResult(result)
         return result
+
+    def saveResult(self, result):
+        self.db.save(result)
+
+    def getLastSaved(self):
+        return self.db.readLast()
 
 
 def main(start_hour):
