@@ -29,6 +29,9 @@ def calc():
         elapsed = req.get('elapsed')
         endHour = h.getEnd(elapsed)
         print('endHour: ', endHour)
+        if len(elapsed) == 0:
+            err_msg = 'No end-time because no elapsed time given.'
+            return render_template('form.html', err_msg=err_msg)
         return render_template('form.html', endHour=endHour, elapsed=elapsed)
     else:
         return render_template('form.html', )

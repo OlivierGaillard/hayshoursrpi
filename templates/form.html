@@ -10,6 +10,9 @@
     pattern="^\d{1,2}(\.\d{1,2})?$" value=""><br>
   <input type="submit" value="End Hour"></button>
 </form>
+{% if err_msg %}
+<p>{{ err_msg }}</p>
+{% endif %}
 {% if endHour %}
 <p>Your decimal time: {{ elapsed }}.<br>
   You quitted at {{ endHour}}</p>

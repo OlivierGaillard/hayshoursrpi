@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-from sys import argv
+from sys import argv, exit
 
 
 class HaysHours(object):
@@ -12,6 +12,8 @@ class HaysHours(object):
         self.start_hour = 7.5
 
     def getEnd(self, elapsed):
+        if len(elapsed) == 0:
+            return ""
         elapsed = float(elapsed)
         end_hour_dec = self.start_hour + elapsed
         correction = 0
@@ -39,6 +41,11 @@ def main(start_hour):
 
 
 if __name__ == "__main__":
-
-    start = float(argv[1])
-    main(start)
+    if len(argv) == 1:
+        print('missing argument start-hour')
+        exit(-1)
+    start_hour = argv[1]
+    if len(start_hour) == 0:
+        print('start-hour is empty string')
+        exit(-1)
+    main(start_hour)
