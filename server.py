@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template, redirect
-from flask import escape
+from flask import Flask, request, render_template
 from hayshours import HaysHours
 from persist import FilePersist
+import os
 
 
 app = Flask(__name__)
@@ -11,12 +11,14 @@ app.config.update(dict(
     DEBUG=True,
 ))
 
+rootdir = os.getenv('ROOTDIR', './tmp')
 dbname = 'db1'
+
 
 @app.route('/')
 def message():
     h = HaysHours()
-    p = FilePersist(dbname)
+    p = FilePersist(rootdir, dbname)
     h.set_db(p)
     lastHourSaved = h.getLastSaved()
     if len(lastHourSaved) > 0:
@@ -24,10 +26,11 @@ def message():
     else:
         return render_template('form.html')
 
+
 @app.route('/end/<elapsed>')
 def end_hour(elapsed):
     h = HaysHours()
-    p = FilePersist(dbname)
+    p = FilePersist(rootdir, dbname)
     h.set_db(p)
     endHour = h.getEnd(elapsed)
     return render_template('api.html', endHour=endHour, elapsed=elapsed)
@@ -38,7 +41,7 @@ def calc():
     if request.method == "POST":
         req = request.form
         h = HaysHours()
-        p = FilePersist(dbname)
+        p = FilePersist(rootdir, dbname)
         h.set_db(p)
         lastHourSaved = h.getLastSaved()
         elapsed = req.get('elapsed')
@@ -54,7 +57,7 @@ def calc():
         else:
             return render_template('form.html', endHour=endHour, elapsed=elapsed)
     else:
-        p = FilePersist(dbname)
+        p = FilePersist(rootdir, dbname)
         h.set_db(p)
         lastHourSaved = h.getLastSaved()
         print('form GET /  last: ', lastHourSaved)

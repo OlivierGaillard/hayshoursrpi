@@ -11,7 +11,7 @@ class TestSave(unittest.TestCase):
         self.p.deleteStorage()
 
     def setUp(self):
-        self.p = FilePersist('db1')
+        self.p = FilePersist('./tmp', 'db1')
 
     def testSaveData(self):
         self.p.save('ceci')

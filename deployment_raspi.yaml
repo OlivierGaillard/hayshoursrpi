@@ -32,9 +32,16 @@ spec:
       labels:
         app: hayshours
     spec:
+      volumes:
+        - name: "hours-data"
+        hostPath:
+          path: "/var/lib/data"
       containers:
         - name: hayshours
-          image: gaillardo/hayshoursrpi:latest
+          image: gaillardo/hayshoursrpi:datavol
+          volumeMounts:
+            - mountPath: "/data"
+            - name: "hours-data"
           imagePullPolicy: Always
           ports:
             - containerPort: 5000

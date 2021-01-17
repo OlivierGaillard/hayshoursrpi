@@ -27,18 +27,23 @@ class FilePersist(Persistable):
     Save / retrieve the last hour using a file.
     """
 
-    def __init__(self, filename):
-        self.fname = filename
+    def __init__(self, rootdir, filename):
+        self.rootdir = rootdir
+        self.fname = path.join(rootdir, filename)
         self.fdb = None
         self.initStorage(self.fname)
 
     def initStorage(self, storage_name):
+        if not path.exists(self.rootdir):
+            os.mkdir(self.rootdir)
         if not path.exists(self.fname):
             self.fdb = open(self.fname, 'w+')
         else:
             self.fdb = open(self.fname, 'a+')
 
     def save(self, result):
+        if self.fdb.closed:
+            self.fdb = open(self.fname, 'a+')
         self.fdb.write(result+'\n')
         self.fdb.close()
 
