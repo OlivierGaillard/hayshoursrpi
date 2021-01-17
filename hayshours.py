@@ -10,6 +10,7 @@ class HaysHours(object):
 
     def __init__(self):
         self.start_hour = 7.5
+        self.db = None
 
     def set_db(self, db):
         self.db = db
@@ -34,7 +35,8 @@ class HaysHours(object):
         mn = '{:02.0f}'.format(minutes)
         sc = '{:02.0f}'.format(seconds)
         result = '{}:{}:{}'.format(hh, mn, sc)
-        self.saveResult(result)
+        if self.db is not None:
+            self.saveResult(result)
         return result
 
     def saveResult(self, result):
