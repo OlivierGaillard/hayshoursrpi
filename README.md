@@ -6,6 +6,25 @@ I wrote it to learn and both to get one little tool
 to convert the decimal time of workous into a start
 and quit hour when I worked for Hays.
 
+## Tests
+
+### Create a Virtualenv with Python3
+
+Use the `requests.txt` and e.g. virtualenvwrapper.
+Then `workon`.
+
+### Testing  the pod created `hoursdata-pod`
+
+- ` kubectl port-forward hoursdata-pod 5000:5000`
+- `python test_server.py`
+
+### Testing the Server Containerized
+
+To test the server containerized execute:
+
+- `python server.py` to run the flask server
+- `python test_server.py`
+
 ## K8S Usages
 
 ### Versions of Image `gaillardo/hayshoursrpi`
@@ -14,7 +33,7 @@ and quit hour when I worked for Hays.
 
 - `datavol` uses an host volume on the node to store the last
   quitting hour. Just a singleton pod is created. This is not
-  a deployment. To access the website: 
+  a deployment. To access the website:
   `kubectl port-forward <pod-name> localport:5000`
 
 ## Datavol Explanation
