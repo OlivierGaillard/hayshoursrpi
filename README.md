@@ -13,9 +13,9 @@ and quit hour when I worked for Hays.
 - test and latest are stateless
 
 - `datavol` uses an host volume on the node to store the last
-  quitting hour.
-
-In the versi
+  quitting hour. Just a singleton pod is created. This is not
+  a deployment. To access the website: 
+  `kubectl port-forward <pod-name> localport:5000`
 
 ## Form Usage
 
