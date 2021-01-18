@@ -32,8 +32,14 @@ def end_hour(elapsed):
     h = HaysHours()
     p = FilePersist(rootdir, dbname)
     h.set_db(p)
-    endHour = h.getEnd(elapsed)
-    return render_template('api.html', endHour=endHour, elapsed=elapsed)
+    endHour = h.getEnd(elapsed) + '\n'
+    return endHour
+
+
+@app.route('/last')
+def last():
+    p = FilePersist(rootdir, dbname)
+    return p.readLast()
 
 
 @app.route('/calc', methods=['GET', 'POST'])
@@ -58,9 +64,7 @@ def calc():
             return render_template('form.html', endHour=endHour, elapsed=elapsed)
     else:
         p = FilePersist(rootdir, dbname)
-        h.set_db(p)
-        lastHourSaved = h.getLastSaved()
-        print('form GET /  last: ', lastHourSaved)
+        lastHourSaved = p.readLast()
         if len(lastHourSaved) > 0:
             return render_template('form.html', lastHourSaved=lastHourSaved)
         else:
