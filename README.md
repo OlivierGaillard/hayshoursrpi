@@ -66,8 +66,24 @@ of `HaysHours` object.
 
 It is also possible to use an API.
 
-For sample
-`http://localhost:5000/calc/8.5`
+### `test_server.py`
+
+```
+class TestServer(unittest.TestCase):
+
+    def test_calcformpage(self):
+        r = requests.get('http://localhost:5000/calc')
+        self.assertEqual(200, r.status_code)
+
+    def test_end(self):
+        r = requests.get('http://localhost:5000/end/8.5')
+        self.assertEqual('16:30:00\n', r.text)
+
+    def test_last(self):
+        requests.get('http://localhost:5000/end/9')
+        r = requests.get('http://localhost:5000/last')
+        self.assertEqual('17:30:00\n', r.text)
+```
 
 ### Flask template
 
