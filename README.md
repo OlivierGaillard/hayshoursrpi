@@ -17,6 +17,18 @@ and quit hour when I worked for Hays.
   a deployment. To access the website: 
   `kubectl port-forward <pod-name> localport:5000`
 
+## Datavol Explanation
+
+The `hostPath` of `pod_raspi.yaml` define a volume path `/home/ubuntu`
+on the node running the pod. The `volumeMounts` set the mount
+path to `/data` for the container image.
+
+`kubectl exec hoursdata-pod ls /data` returns `db1`, which is the
+fixed `dbname` defined in `server.py`.
+
+`server.py` uses the environment variable `ROOTDIR` to use the
+mount path set by the pod definition.
+
 ## Form Usage
 
 - The starting time is fixed to 07:30.
