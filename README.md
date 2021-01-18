@@ -6,6 +6,17 @@ I wrote it to learn and both to get one little tool
 to convert the decimal time of workous into a start
 and quit hour when I worked for Hays.
 
+## K8S Usages
+
+### Versions of Image `gaillardo/hayshoursrpi`
+
+- test and latest are stateless
+
+- `datavol` uses an host volume on the node to store the last
+  quitting hour.
+
+In the versi
+
 ## Form Usage
 
 - The starting time is fixed to 07:30.
