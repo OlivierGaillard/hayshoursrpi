@@ -36,7 +36,7 @@ To test the server containerized execute:
   a deployment. To access the website:
   `kubectl port-forward <pod-name> localport:5000`
 
-## Datavol Explanation
+## Volume of Pod `hoursdata-pod` 
 
 The `hostPath` of `pod_raspi.yaml` define a volume path `/home/ubuntu`
 on the node running the pod. The `volumeMounts` set the mount
