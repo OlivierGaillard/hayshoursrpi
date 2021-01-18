@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: hoursdata-rs3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hoursdata-pod2 # should match the
+      version: "2" # should match the Pod spec
+  template:
+    metadata:
+      labels:
+        app: hoursdata-pod2 # matching label 'app'
+        version: "2" # matching label 'version'
+    spec:
+      volumes:
+        - name: hours-data
+          hostPath:
+            path: /home/ubuntu/hoursdata # this dir should exist on node
+            type: Directory
+      containers:
+      - image: gaillardo/hayshoursrpi:datavol
+        imagePullPolicy: Always
+        name: hoursdata
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - mountPath: /data
+          name: hours-data
