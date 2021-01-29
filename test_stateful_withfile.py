@@ -1,6 +1,6 @@
 import unittest
 from hayshours import HaysHours
-from persist import FilePersist
+from filepersist import FilePersist
 
 
 class TestSave(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestSave(unittest.TestCase):
         self.p.deleteStorage()
 
     def setUp(self):
-        self.p = FilePersist('./tmp', 'db1')
+        self.p = FilePersist('./tmp', TestSave.fname)
 
     def testSaveData(self):
         self.p.save('ceci')
