@@ -36,7 +36,7 @@ To test the server containerized execute:
   a deployment. To access the website:
   `kubectl port-forward <pod-name> localport:5000`
 
-## Volume of Pod `hoursdata-pod` 
+## Volume of Pod `hoursdata-pod`
 
 The `hostPath` of `pod_raspi.yaml` define a volume path `/home/ubuntu`
 on the node running the pod. The `volumeMounts` set the mount
@@ -47,6 +47,25 @@ fixed `dbname` defined in `server.py`.
 
 `server.py` uses the environment variable `ROOTDIR` to use the
 mount path set by the pod definition.
+
+## Volume for MariaDB
+
+The node `n3` is an nfs server whose exported directory is used as
+Kubernetes volume. See the definitions here:
+- `nfs-volume.yaml`
+- `nfs-volume-claim.yaml`
+
+I followed the setup from the book *Kubernetes Up & Running* from chapter
+15 about storage solutions. In place of MySQL I used MariaDB to build
+a *singleton* pod.
+
+In the present implementation the test `test_stateful_withsql.py` will
+connect to the MariaDB, create a database and one table, store leaving
+hour as text.
+
+### Configmap for MariaDB
+
+To create the database and its unique table I will use a configmap.
 
 ## Form Usage
 
