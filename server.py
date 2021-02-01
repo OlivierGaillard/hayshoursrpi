@@ -15,8 +15,6 @@ app.config.update(
     )
 )
 
-# rootdir = os.getenv('ROOTDIR', './tmp')
-
 host = "192.168.1.100"
 user = "root"
 password = "orionScanner103"

@@ -67,6 +67,10 @@ hour as text.
 
 To create the database and its unique table I will use a configmap.
 
+#### Temporary Solution
+
+Once the flask server starts it initialize the database.
+
 ## Form Usage
 
 - The starting time is fixed to 07:30.
