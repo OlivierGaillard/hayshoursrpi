@@ -1,5 +1,6 @@
 from mysql.connector import connect, Error
 from persist import Persistable
+import re
 
 
 class SQLPersist(Persistable):
@@ -7,13 +8,17 @@ class SQLPersist(Persistable):
     Save / retrieve the last hour using mariadb.
     """
 
-    def __init__(self, host, user, password, port, database):
+    re_schema = re.compile(".*schema")
+    re_mysql = "mysql"
+
+    def __init__(self, host, user, password, port, database, create=True):
         self.host = host
         self.user = user
         self.password = password
         self.port = port
         self.database = database
         self.connection = None
+        self.create = create
         self.initStorage()
 
     def initStorage(self):
@@ -21,7 +26,9 @@ class SQLPersist(Persistable):
         Create database. If  it does exist we catch the error.
         """
         self.create_connection()
-        self.create_database()
+        if self.create:
+            if not self.database_exists(self.database):
+                self.create_database()
 
     def create_connection(self):
         try:
@@ -35,6 +42,18 @@ class SQLPersist(Persistable):
         except Error as e:
             print(e)
 
+    def create_connection_with_db(self, dbname):
+        try:
+            self.connection = connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                port=self.port,
+                database=dbname,
+            )
+        except Error as e:
+            print(e)
+
     def create_database(self):
         try:
             create_db_query = "CREATE DATABASE " + self.database
@@ -43,12 +62,19 @@ class SQLPersist(Persistable):
         except Error as e:
             print(e)
 
-    def create_table(self, table_query):
-        try:
-            with self.connection.cursor() as cursor:
-                cursor.execute(table_query)
-        except Error as e:
-            print(e)
+    def create_table(self, table_query, table_name):
+        '''
+            table_query: full table query
+            table_name: the table name
+        '''
+        if not self.connection.is_connected():
+            self.create_connection()
+        if not self.table_exists(table_name):
+            try:
+                with self.connection.cursor() as cursor:
+                    cursor.execute(table_query)
+            except Error as e:
+                print(e)
 
     def save(self, result):
         save_query = "INSERT INTO hours(leaving)  VALUES ('" + result + "')"
@@ -63,7 +89,7 @@ class SQLPersist(Persistable):
             print(e)
 
     def readLast(self):
-        getlast_query = "SELECT `leaving` FROM hours"
+        getlast_query = "select leaving from hours where id = (select max(id) from hours)"
         if not self.connection.is_connected():
             self.create_connection()
         try:
@@ -74,14 +100,48 @@ class SQLPersist(Persistable):
                 if result is not None:
                     return result[0]
                 else:
-                    return ''
+                    return ""
+        except Error as e:
+            print(e)
+
+    def list_database(self):
+        if not self.connection.is_connected():
+            self.create_connection()
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute("SHOW DATABASES")
+                rows = cursor.fetchall()
+                tmp = [d[0] for d in rows]
+                tmp2 = [d for d in tmp if not SQLPersist.re_schema.match(d)]
+                dbs = [d for d in tmp2 if not SQLPersist.re_mysql == d]
+                return dbs
+        except Error as e:
+            print(e)
+
+    def database_exists(self, db):
+        """
+        Check if database named 'db' exists.
+        """
+        return db in self.list_database()
+
+    def table_exists(self, table):
+        if not self.connection.is_connected():
+            self.create_connection()
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute("USE " + self.database)
+                cursor.execute("SHOW TABLES")
+                rows = cursor.fetchall()
+                tmp =[d[0] for d in rows]
+                return table in tmp
         except Error as e:
             print(e)
 
     def deleteStorage(self):
-        try:
-            dropdb = "DROP DATABASE " + self.database
-            with self.connection.cursor() as cursor:
-                cursor.execute(dropdb)
-        except Error as e:
-            print(e)
+        if self.database_exists(self.database):
+            try:
+                dropdb = "DROP DATABASE " + self.database
+                with self.connection.cursor() as cursor:
+                    cursor.execute(dropdb)
+            except Error as e:
+                print(e)

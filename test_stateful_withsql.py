@@ -16,12 +16,19 @@ class TestSave(unittest.TestCase):
         self.password = "orionScanner103"
         self.port = 30306
         self.database = "hhours"
+        self.table = "hours"
         self.p = SQLPersist(
-            self.host, self.user, self.password, self.port, self.database
+            self.host, self.user, self.password, self.port, self.database, create=True
         )
-        self.p.create_table("CREATE TABLE hhours.hours(leaving VARCHAR(10))")
+        id = "id MEDIUMINT NOT NULL AUTO_INCREMENT"
+        primary = "PRIMARY KEY(id)"
+        create_table_query = f"""CREATE TABLE {self.database}.{self.table}({id},
+            leaving VARCHAR(10),
+            {primary}
+        )"""
+        self.p.create_table(create_table_query, self.table)
 
-    def pastestConnection(self):
+    def testConnection(self):
         self.assertTrue(self.p.connection.is_connected())
 
     def testSaveData(self):
