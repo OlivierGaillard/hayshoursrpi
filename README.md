@@ -13,17 +13,14 @@ and quit hour when I worked for Hays.
 Use the `requests.txt` and e.g. virtualenvwrapper.
 Then `workon`.
 
-### Testing  the pod created `hoursdata-pod`
+### Testing  the Service  `hours-service`
 
-- ` kubectl port-forward hoursdata-pod 5000:5000`
-- `python test_server.py`
+`test_server L|K`:
 
-### Testing the Server Containerized
+- `L' uses the `flask` server locally
+- `K` uses the Kubernetes service
 
-To test the server containerized execute:
-
-- `python server.py` to run the flask server
-- `python test_server.py`
+- `python test_server.py K`
 
 ## K8S Usages
 
@@ -38,7 +35,7 @@ To test the server containerized execute:
 
 ## Volume of Pod `hoursdata-pod`
 
-The `hostPath` of `pod_raspi.yaml` define a volume path `/home/ubuntu`
+The `hostPath` of `pod_raspi.yaml` defines a volume path `/home/ubuntu`
 on the node running the pod. The `volumeMounts` set the mount
 path to `/data` for the container image.
 
@@ -61,7 +58,11 @@ a *singleton* pod.
 
 In the present implementation the test `test_stateful_withsql.py` will
 connect to the MariaDB, create a database and one table, store leaving
-hour as text.
+hour as text. After the test the database is deleted.
+
+### Note: Future Version
+
+The next version will use `StateFulSets`
 
 ### Configmap for MariaDB
 

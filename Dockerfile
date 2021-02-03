@@ -9,6 +9,7 @@ ADD templates /app/templates
 ADD hayshours.py /app
 ADD server.py /app
 ADD persist.py /app
+ADD sqlpersist.py /app
 WORKDIR /app
 EXPOSE 5000
 CMD ["python3", "/app/server.py"]
