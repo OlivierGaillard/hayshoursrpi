@@ -6,6 +6,10 @@ I wrote it to learn and both to get one little tool
 to convert the decimal time of workous into a start
 and quit hour when I worked for Hays.
 
+## Special Node `n3`
+
+On this node the raspberry pi image is built.
+
 ## Tests
 
 ### Create a Virtualenv with Python3

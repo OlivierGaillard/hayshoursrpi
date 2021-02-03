@@ -3,10 +3,17 @@ import requests
 import sys
 
 LOCAL = 'http://localhost:5000/'
-K8S   = 'http://192.168.1.101:30038/'
+K8S   = 'http://192.168.1.101:30036/'
 
 
 class TestServer(unittest.TestCase):
+    '''
+        Intrusive test! It will not delete the
+        entries created in database 'worktime'.
+
+        It uses the flask API defined in 'server.py' and does no
+        direct usage of the database.
+    '''
 
     URL  = ''
 
@@ -16,12 +23,12 @@ class TestServer(unittest.TestCase):
 
     def test_end(self):
         r = requests.get(TestServer.URL + 'end/8.5')
-        self.assertEqual('16:30:00\n', r.text)
+        self.assertEqual('16:30:00', r.text)
 
     def test_last(self):
         requests.get(TestServer.URL + 'end/9')
         r = requests.get(TestServer.URL + 'last')
-        self.assertEqual('17:30:00\n', r.text)
+        self.assertEqual('17:30:00', r.text)
 
 
 if __name__ == '__main__':
