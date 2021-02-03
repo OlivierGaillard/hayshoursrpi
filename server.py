@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template
 from hayshours import HaysHours
-from filepersist import FilePersist
 from sqlpersist import SQLPersist
 
 # import os
