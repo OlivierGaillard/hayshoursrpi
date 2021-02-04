@@ -47,7 +47,7 @@ def end_hour(elapsed):
     h = HaysHours()
     p = SQLPersist(host, user, password, port, database, create=False)
     h.set_db(p)
-    endHour = h.getEnd(elapsed) + "\n"
+    endHour = h.getEnd(elapsed)
     return endHour
 
 
