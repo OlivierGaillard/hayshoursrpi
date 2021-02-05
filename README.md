@@ -6,16 +6,25 @@ I wrote it to learn and both to get one little tool
 to convert the decimal time of workous into a start
 and quit hour when I worked for Hays.
 
-## Special Node `n3`
+The nodes are made of four raspberry-pi with 128 Gb cards.
+I tried with two nodes of 32 Gb and two of 16 Gb but the
+small ones often crashed.
 
-On this node the raspberry pi image is built.
+## Note on Node `n3`
+
+On this node the raspberry pi image is built. It could be
+any another node.
 
 ## Tests
 
 ### Create a Virtualenv with Python3
 
-Use the `requests.txt` and e.g. virtualenvwrapper.
-Then `workon`.
+Use the `requests.txt` and e.g. with *virtualenvwrapper.*
+`mkvirtualenv <your venv-name>`.
+Then `workon` and select <your venv-name>`. See [virtualenvwrapper doc](https://virtualenvwrapper.readthedocs.io/en/latest/).
+
+To install *MariaDB* client and `mysql-connector-python`
+some special packages where required with debian.
 
 ### Testing  the Service  `hours-service`
 
@@ -36,6 +45,12 @@ Then `workon`.
   quitting hour. Just a singleton pod is created. This is not
   a deployment. To access the website:
   `kubectl port-forward <pod-name> localport:5000`
+
+- Tag `sql` refers to... SQL version with MariaDB.
+
+#### Test the image
+
+
 
 ## Volume of Pod `hoursdata-pod`
 
