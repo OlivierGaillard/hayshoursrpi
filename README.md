@@ -50,7 +50,9 @@ some special packages where required with debian.
 
 #### Test the image
 
-
+- `docker run -it <image> /bin/bash`. Then:
+  - `python3 test_sql.py` to test MariaDB connection and
+    usage of the PyMySQL client.
 
 ## Volume of Pod `hoursdata-pod`
 
@@ -111,6 +113,38 @@ It is also possible to use an API.
 
 ### `test_server.py`
 
+Two modes for this test, *local* or *K8S*. To use the local
+one you have to run the Flask server with `python server.py`
+and then `python test_server.py L` with the *L* flag.
+
+To use the Kubernetes Service set the URL to the variable
+`K8S` to one of your node and `python test_server K`.
+No specific node is required because a *NodePort* is
+declared in `deployment_raspi_sql.yaml`:
+
+``
+metadata:
+  name: hours-service
+  labels:
+    app: hayshours
+spec:
+  type: NodePort
+  selector:
+    app: hayshours
+  ports:
+    - protocol: "TCP"
+      port: 8989
+      targetPort: 5000
+      nodePort: 30036
+``
+
+This test add entries in the table `hours` of the database
+`worktime`.
+
+When the server starts it initializes the database and the
+table if they do not exist.
+
+
 ```
 class TestServer(unittest.TestCase):
 
@@ -120,12 +154,12 @@ class TestServer(unittest.TestCase):
 
     def test_end(self):
         r = requests.get('http://localhost:5000/end/8.5')
-        self.assertEqual('16:30:00\n', r.text)
+        self.assertEqual('16:30:00', r.text)
 
     def test_last(self):
         requests.get('http://localhost:5000/end/9')
         r = requests.get('http://localhost:5000/last')
-        self.assertEqual('17:30:00\n', r.text)
+        self.assertEqual('17:30:00', r.text)
 ```
 
 ### Flask template
