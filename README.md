@@ -3,8 +3,11 @@
 ## History
 
 I wrote it to learn and both to get one little tool
-to convert the decimal time of workous into a start
-and quit hour when I worked for Hays.
+to convert the decimal time of workours into a starting
+and leaving time when I worked for Hays.
+
+I wrote it in Python and Go. This version with K8S
+is with Python again.
 
 The nodes are made of four raspberry-pi with 128 Gb cards.
 I tried with two nodes of 32 Gb and two of 16 Gb but the
@@ -15,12 +18,7 @@ small ones often crashed.
 On this node the raspberry pi image is built. It could be
 any another node.
 
-## Tests
-
-Run all tests with `python -m unittest`.
-
-
-### Create a Virtualenv with Python3
+## Create a Virtualenv with Python3
 
 Use the `requests.txt` and e.g. with *virtualenvwrapper.*
 `mkvirtualenv <your venv-name>`.
@@ -29,7 +27,11 @@ Then `workon` and select <your venv-name>`. See [virtualenvwrapper doc](https://
 To install *MariaDB* client and `mysql-connector-python`
 some special packages where required with debian.
 
-### Testing  the Service  `hours-service`
+# Tests
+
+To run all tests: `python -m unittest`.
+
+## Testing  the Service  `hours-service`
 
 `test_server L|K`:
 
@@ -40,7 +42,7 @@ some special packages where required with debian.
 
 ## K8S Usages
 
-### Versions of Image `gaillardo/hayshoursrpi`
+# Versions of Image `gaillardo/hayshoursrpi`
 
 - test and latest are stateless
 
@@ -51,13 +53,13 @@ some special packages where required with debian.
 
 - Tag `sql` refers to... SQL version with MariaDB.
 
-#### Test the image
+## Test the image
 
 - `docker run -it <image> /bin/bash`. Then:
   - `python3 test_sql.py` to test MariaDB connection and
     usage of the PyMySQL client.
 
-## Volume of Pod `hoursdata-pod`
+## Version with Volume of Pod `hoursdata-pod`
 
 The `hostPath` of `pod_raspi.yaml` defines a volume path `/home/ubuntu`
 on the node running the pod. The `volumeMounts` set the mount
@@ -84,27 +86,14 @@ In the present implementation the test `test_stateful_withsql.py` will
 connect to the MariaDB, create a database and one table, store leaving
 hour as text. After the test the database is deleted.
 
-### Note: Future Version
+# Note: Future Version
 
-The next version will use `StateFulSets`
+- The next version will use `StateFulSets`
 
-### Configmap for MariaDB
-
-To create the database and its unique table I will use a configmap.
-
-#### Temporary Solution
-
-Once the flask server starts it initialize the database.
-
-## Form Usage
+- Configmap for MariaDB to create the database and its unique table
+  (Now when the flask server starts it initializes the database.)
 
 - The starting time is fixed to 07:30.
-
-- Once started `http://localhost:5000` allows to enter
-  the decimal elapsed time in a form.
-
-The submit will call the "backend" method `getEnd`
-of `HaysHours` object.
 
 ### Flask template
 
@@ -172,3 +161,5 @@ class TestServer(unittest.TestCase):
 ## Github
 
 [Hayshours source](https://github.com/OlivierGaillard/hayshoursrpi)
+[Docker Hub](https://hub.docker.com/repository/docker/gaillardo/hayshoursrpi)
+
