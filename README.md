@@ -17,6 +17,9 @@ any another node.
 
 ## Tests
 
+Run all tests with `python -m unittest`.
+
+
 ### Create a Virtualenv with Python3
 
 Use the `requests.txt` and e.g. with *virtualenvwrapper.*
