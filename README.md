@@ -1,4 +1,4 @@
-# Simple Flask App for microk8s Test on Rapsberry pi-4
+# Simple Flask App for MicroK8s Test on Rapsberry pi-4
 
 ## History
 
@@ -12,6 +12,15 @@ is with Python again.
 The nodes are made of four raspberry-pi with 128 Gb cards.
 I tried with two nodes of 32 Gb and two of 16 Gb but the
 small ones often crashed.
+
+Here are the nodes.
+
+![cluster](cluster.jpg)
+
+Here's the dashboard.
+
+![cluster](dashboard.png)
+
 
 ## Note on Node `n3`
 
@@ -162,4 +171,3 @@ class TestServer(unittest.TestCase):
 
 [Hayshours source](https://github.com/OlivierGaillard/hayshoursrpi)
 [Docker Hub](https://hub.docker.com/repository/docker/gaillardo/hayshoursrpi)
-
