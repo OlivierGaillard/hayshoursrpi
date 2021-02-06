@@ -3,26 +3,33 @@
 ## History
 
 I wrote it to learn and both to get one little tool
-to convert the decimal time of workours into a starting
-and leaving time when I worked for Hays.
+to convert the decimal time of workours e.g. 8.4 into a starting
+and leaving times, what were required  by the accounting website of
+Hays.
 
-I wrote it in Python and Go. This version with K8S
-is with Python again.
+I wrote it first in Python, then in Go. This version for Kubernetes
+is written with Python again.
+
+## Home Cluster
 
 The nodes are made of four raspberry-pi with 128 Gb cards.
 I tried with two nodes of 32 Gb and two of 16 Gb but the
 small ones often crashed.
 
-Here are the nodes.
+The image used is an Ubuntu one: `ubuntu-20.04.1-preinstalled-server-arm64+raspi.img.xz`.
+The setup is explained both on [MicroK8s](https://microk8s.io/)
+and on [Ubuntu](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#1-overview).
 
-![cluster](cluster.jpg)
+Her is a picture of the cluster.
 
-Here's the dashboard.
+![cluster](rpi-cluster.jpg)
+
+Once `kubectl proxy` is running we can access the dashboard.
 
 ![cluster](dashboard.png)
 
 
-## Note on Node `n3`
+### Note on Node `n3`
 
 On this node the raspberry pi image is built. It could be
 any another node.

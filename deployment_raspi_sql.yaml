@@ -29,13 +29,13 @@ spec:
   template:
     metadata:
       annotations:
-        hayshoursrpi/change-cause: "Use smaller base image alpine"
+        hayshoursrpi/change-cause: "Use multi-stage build version 1"
       labels:
         app: hayshours
     spec:
       containers:
         - name: hayshours
-          image: gaillardo/hayshoursrpi:alpine-sql
+          image: gaillardo/hayshoursrpi:small-alpine-sql-v1
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
