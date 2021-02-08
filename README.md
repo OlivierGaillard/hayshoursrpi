@@ -62,6 +62,13 @@ See the `Dockerfile`.
 
 To run all tests go in `python` directory and: `python -m unittest`.
 
+To test the Docker image:
+
+`docker run --env MARIAPASS=Passwd -it gaillardo/hayshoursrpi:test5 /bin/bash`
+
+Inside the container within the `python` directory you
+can run `python -m unittest`
+
 ## Testing  the Service  `hours-service`
 
 `test_server L|K`:

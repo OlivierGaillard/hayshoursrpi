@@ -13,13 +13,12 @@ RUN pip3 install -r requirements.txt
 FROM hypriot/rpi-alpine AS build-image
 RUN apk update && apk add bash
 RUN apk add python3
-RUN mkdir /app
-RUN mkdir /app/templates
-ADD templates /app/templates
-COPY *.py /app/
+RUN mkdir -p /app/python/test
+RUN mkdir /app/python/templates
+COPY python/ /app/python/
 COPY --from=pylib-image /opt/venv /opt/venv
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 WORKDIR /app
 EXPOSE 5000
-CMD ["python", "/app/server.py"]
+CMD ["python", "/app/python/server.py"]
