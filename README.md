@@ -1,18 +1,30 @@
-# Simple Flask App for MicroK8s Test on Rapsberry pi-4
+# Sample Kubernetes Service on Rapsberry PI-4
 
-## History
+## History and Purpose
 
-I wrote it to learn and both to get one little tool
-to convert the decimal time of workours e.g. 8.4 into a starting
-and leaving times, what were required  by the accounting website of
-Hays.
-
+Working times
+by the client was the elapsed decimal time.
+The accounting website of
+my enterprise requires a starting
+and leaving times. As I spent too much time
+entering my working times why not writing a little tool
+and together learn better Kubernetes and Go?
 I wrote it first in Python, then in Go. This version for Kubernetes
-is written with Python again.
+is written in Python with Flask again because I don't know
+the [`echo`](https://github.com/labstack/echo) Go equivalent one.
 
-## Home Cluster
+## Features
 
-The nodes are made of four raspberry-pi with 128 Gb cards.
+- Flask is used both for a formular and for the API; see `server.py`
+- Time calculation with `Hayshours`
+- Python abstract class `Persistable` and implementations
+  with `FilePersist` and `SQLPersist`
+- Unittest
+- Deployments
+
+## Building the Home Cluster
+
+The nodes are made of four Raspberry-PI with 128 Gb cards.
 I tried with two nodes of 32 Gb and two of 16 Gb but the
 small ones often crashed.
 
@@ -20,7 +32,7 @@ The image used is an Ubuntu one: `ubuntu-20.04.1-preinstalled-server-arm64+raspi
 The setup is explained both on [MicroK8s](https://microk8s.io/)
 and on [Ubuntu](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#1-overview).
 
-Her is a picture of the cluster.
+Here is a picture of the cluster.
 
 ![cluster](rpi-cluster.jpg)
 
@@ -29,19 +41,22 @@ Once `kubectl proxy` is running we can access the dashboard.
 ![cluster](dashboard.png)
 
 
-### Note on Node `n3`
+### Node `n3` for Docker
 
-On this node the raspberry pi image is built. It could be
-any another node.
+I use this node to build raspberry pi container with `docker`.
+It could be any other node.
 
 ## Create a Virtualenv with Python3
 
-Use the `requests.txt` and e.g. with *virtualenvwrapper.*
-`mkvirtualenv <your venv-name>`.
-Then `workon` and select <your venv-name>`. See [virtualenvwrapper doc](https://virtualenvwrapper.readthedocs.io/en/latest/).
+Use `pip` with the `requests.txt` and virtualenv. *virtualenvwrapper* is very cool.
+`mkvirtualenv venv-name`.
+Then `workon` will list the virtualenvs and you can select `venv-name>`. See [virtualenvwrapper doc](https://virtualenvwrapper.readthedocs.io/en/latest/).
 
 To install *MariaDB* client and `mysql-connector-python`
-some special packages where required with debian.
+some special packages where required prior to use :
+- `build-base`
+- `python3-dev`
+See the `Dockerfile`.
 
 # Tests
 
@@ -54,7 +69,7 @@ To run all tests: `python -m unittest`.
 - `L' uses the `flask` server locally
 - `K` uses the Kubernetes service
 
-- `python test_server.py K`
+Per default the test uses Kubernetes.
 
 ## K8S Usages
 
