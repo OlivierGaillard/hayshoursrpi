@@ -1,8 +1,7 @@
 from flask import Flask, request, render_template
 from hayshours import HaysHours
 from sqlpersist import SQLPersist
-
-# import os
+import os
 
 
 app = Flask(__name__)
@@ -16,7 +15,7 @@ app.config.update(
 
 host = "192.168.1.100"
 user = "root"
-password = "orionScanner103"
+password = os.getenv('MARIAPASS')
 port = 30306
 database = "worktime"
 table = "hours"

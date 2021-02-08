@@ -1,6 +1,7 @@
 import unittest
 from sqlpersist import SQLPersist
 import mysql
+import os
 
 
 class TestDBSetup(unittest.TestCase):
@@ -15,7 +16,7 @@ class TestDBSetup(unittest.TestCase):
     def setUp(self):
         self.host = "192.168.1.100"
         self.user = "root"
-        self.password = "orionScanner103"
+        self.password = os.getenv('MARIAPASS')
         self.port = 30306
 
     def test_Create_SameDB_2times(self):

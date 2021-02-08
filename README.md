@@ -60,7 +60,7 @@ See the `Dockerfile`.
 
 # Tests
 
-To run all tests: `python -m unittest`.
+To run all tests go in `python` directory and: `python -m unittest`.
 
 ## Testing  the Service  `hours-service`
 

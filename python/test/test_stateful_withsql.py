@@ -1,7 +1,7 @@
 import unittest
 from hayshours import HaysHours
 from sqlpersist import SQLPersist
-
+import os
 
 class TestSave(unittest.TestCase):
 
@@ -13,7 +13,7 @@ class TestSave(unittest.TestCase):
     def setUp(self):
         self.host = "192.168.1.100"
         self.user = "root"
-        self.password = "orionScanner103"
+        self.password = os.getenv('MARIAPASS')
         self.port = 30306
         self.database = "hhours"
         self.table = "hours"
