@@ -2,25 +2,40 @@
 
 ## History and Purpose
 
-Working times
-by the client was the elapsed decimal time.
+It's a little tool to calculate the arrival and leaving
+time at work.
+The working times by the client was the elapsed decimal time.
 The accounting website of
-my enterprise requires a starting
+my emplyer required a starting
 and leaving times. As I spent too much time
 entering my working times why not writing a little tool
-and together learn better Kubernetes and Go?
+and together getting better acquainted with Kubernetes and Go?
 I wrote it first in Python, then in Go. This version for Kubernetes
 is written in Python with Flask again because I don't know
-the [`echo`](https://github.com/labstack/echo) Go equivalent one.
+the [`echo`](https://github.com/labstack/echo) Go equivalent
+to Flask.
 
-## Features
+## Software Components
 
-- Flask is used both for a formular and for the API; see `server.py`
-- Time calculation with `Hayshours`
-- Python abstract class `Persistable` and implementations
-  with `FilePersist` and `SQLPersist`
-- Unittest
-- Deployments
+### Core Container Image
+
+This image is defined in the `Dockefile`.
+
+- Flask is used both for a formular and for the API; see `server.py`.
+- Time calculation is implemented in `Hayshours`.
+- Python abstract class `Persistable` defines the API to save data.
+- Unittests define tests for calculation and persistence.
+- They are two implementations with `FilePersist` and `SQLPersist`.
+
+### Kubernetes Deployments
+
+Two deployments match the two implementations of persistence:
+
+1. Deployment with file persistence; it is defined in
+   `deployment_raspi_sql.yaml`.
+
+2. Deployement with database persistence; it is defined in
+   `deployment_raspi_datavol.yaml`
 
 ## Building the Home Cluster
 
@@ -56,7 +71,8 @@ To install *MariaDB* client and `mysql-connector-python`
 some special packages where required prior to use :
 - `build-base`
 - `python3-dev`
-See the `Dockerfile`.
+These packages are present in the first image only.
+See the multi-stage build in the `Dockerfile`.
 
 # Tests
 
@@ -73,7 +89,7 @@ can run `python -m unittest`
 
 `test_server L|K`:
 
-- `L' uses the `flask` server locally
+- `L` uses the `flask` server locally
 - `K` uses the Kubernetes service
 
 Per default the test uses Kubernetes.

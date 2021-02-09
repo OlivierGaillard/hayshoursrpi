@@ -29,13 +29,16 @@ spec:
   template:
     metadata:
       annotations:
-        hayshoursrpi/change-cause: "Use multi-stage build version 1"
+        hayshoursrpi/change-cause: "Smaller multi-stage with venv"
       labels:
         app: hayshours
     spec:
       containers:
         - name: hayshours
-          image: gaillardo/hayshoursrpi:small-alpine-sql-v1
+          image: gaillardo/hayshoursrpi:sql-v2
+          env:
+          - name: MARIAPASS
+            value: orionScanner103
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
