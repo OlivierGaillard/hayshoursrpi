@@ -85,6 +85,9 @@ To test the Docker image:
 Inside the container within the `python` directory you
 can run `python -m unittest`
 
+To run separate test, you have to export `PYTHONPATH`
+to the current path within `python` dir e.g. ``export PYTHONPATH=`pwd` ``
+
 ## Testing  the Service  `hours-service`
 
 `test_server L|K`:
