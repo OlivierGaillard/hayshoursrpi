@@ -1,15 +1,20 @@
 # Sample Kubernetes Service on Rapsberry PI-4
 
+## Todo
+
+- integrate the server which uses `persistfactory` in K8S
+- build the tiny image used for file persistence
+
 ## History and Purpose
 
 It's a little tool to calculate the arrival and leaving
 time at work.
 The working times by the client was the elapsed decimal time.
 The accounting website of
-my emplyer required a starting
-and leaving times. As I spent too much time
+my employer required a starting
+and leaving time. As I spent too much time
 entering my working times why not writing a little tool
-and together getting better acquainted with Kubernetes and Go?
+and together get acquainted with Kubernetes and Go?
 I wrote it first in Python, then in Go. This version for Kubernetes
 is written in Python with Flask again because I don't know
 the [`echo`](https://github.com/labstack/echo) Go equivalent
@@ -26,6 +31,9 @@ This image is defined in the `Dockefile`.
 - Python abstract class `Persistable` defines the API to save data.
 - Unittests define tests for calculation and persistence.
 - They are two implementations with `FilePersist` and `SQLPersist`.
+- Depending on variable `STATEFUL_TYPE` the `server.py`
+  will call the `persistfactory` to use a database or a
+  file to save its data.
 
 ### Kubernetes Deployments
 
@@ -34,7 +42,7 @@ Two deployments match the two implementations of persistence:
 1. Deployment with file persistence; it is defined in
    `deployment_raspi_sql.yaml`.
 
-2. Deployement with database persistence; it is defined in
+2. Deployment with database persistence; it is defined in
    `deployment_raspi_datavol.yaml`
 
 ## Building the Home Cluster
@@ -97,25 +105,6 @@ to the current path within `python` dir e.g. ``export PYTHONPATH=`pwd` ``
 
 Per default the test uses Kubernetes.
 
-## K8S Usages
-
-# Versions of Image `gaillardo/hayshoursrpi`
-
-- test and latest are stateless
-
-- `datavol` uses an host volume on the node to store the last
-  quitting hour. Just a singleton pod is created. This is not
-  a deployment. To access the website:
-  `kubectl port-forward <pod-name> localport:5000`
-
-- Tag `sql` refers to... SQL version with MariaDB.
-
-## Test the image
-
-- `docker run -it <image> /bin/bash`. Then:
-  - `python3 test_sql.py` to test MariaDB connection and
-    usage of the PyMySQL client.
-
 ## Version with Volume of Pod `hoursdata-pod`
 
 The `hostPath` of `pod_raspi.yaml` defines a volume path `/home/ubuntu`
@@ -145,73 +134,16 @@ hour as text. After the test the database is deleted.
 
 # Note: Future Version
 
-- The next version will use `StateFulSets`
+- The next version will use `StateFulSets` for database
 
 - Configmap for MariaDB to create the database and its unique table
   (Now when the flask server starts it initializes the database.)
 
-- The starting time is fixed to 07:30.
+- Use K8S secret for database credentials.
 
 ### Flask template
 
 - `form.html`
-
-## API
-
-It is also possible to use an API.
-
-### `test_server.py`
-
-Two modes for this test, *local* or *K8S*. To use the local
-one you have to run the Flask server with `python server.py`
-and then `python test_server.py L` with the *L* flag.
-
-To use the Kubernetes Service set the URL to the variable
-`K8S` to one of your node and `python test_server K`.
-No specific node is required because a *NodePort* is
-declared in `deployment_raspi_sql.yaml`:
-
-``
-metadata:
-  name: hours-service
-  labels:
-    app: hayshours
-spec:
-  type: NodePort
-  selector:
-    app: hayshours
-  ports:
-    - protocol: "TCP"
-      port: 8989
-      targetPort: 5000
-      nodePort: 30036
-``
-
-This test add entries in the table `hours` of the database
-`worktime`.
-
-When the server starts it initializes the database and the
-table if they do not exist.
-
-
-```
-class TestServer(unittest.TestCase):
-
-    def test_calcformpage(self):
-        r = requests.get('http://localhost:5000/calc')
-        self.assertEqual(200, r.status_code)
-
-    def test_end(self):
-        r = requests.get('http://localhost:5000/end/8.5')
-        self.assertEqual('16:30:00', r.text)
-
-    def test_last(self):
-        requests.get('http://localhost:5000/end/9')
-        r = requests.get('http://localhost:5000/last')
-        self.assertEqual('17:30:00', r.text)
-```
-
-### Flask template
 
 - `api.html`
 

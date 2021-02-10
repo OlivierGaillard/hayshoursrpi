@@ -68,10 +68,9 @@ def calc():
 
 
 if __name__ == "__main__":
-    SERVER_TYPE = os.getenv('SERVER_TYPE', 'FILE')
-    if SERVER_TYPE == 'SQL':
+    STATEFUL_TYPE = os.getenv('STATEFUL_TYPE', 'FILE')
+    if STATEFUL_TYPE == 'SQL':
         p = get_sqlpersist()
     else:
         p = get_filepersist()
-
     app.run(host="0.0.0.0")
