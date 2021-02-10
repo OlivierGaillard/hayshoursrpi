@@ -1,5 +1,7 @@
 # Sample Kubernetes Service on Rapsberry PI-4
 
+## Status: Draft
+
 ## Todo
 
 - integrate the server which uses `persistfactory` in K8S
