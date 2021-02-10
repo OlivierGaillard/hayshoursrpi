@@ -61,12 +61,6 @@ class TestDBSetup(unittest.TestCase):
         db = TestDBSetup.dbname
         p = SQLPersist(self.host, self.user, self.password, self.port, db, create=False)
 
-    def test_connect_db(self):
-        db = TestDBSetup.dbname
-        p = SQLPersist(self.host, self.user, self.password, self.port, db, create=True)
-        p.create_connection_with_db(db)
-        self.assertTrue(p.connection.is_connected)
-
     def test_connect_non_existing_db(self):
         db = "mafalda"
         p = SQLPersist(self.host, self.user, self.password, self.port, db, create=False)

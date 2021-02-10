@@ -1,38 +1,20 @@
 from flask import Flask, request, render_template
 from hayshours import HaysHours
-from sqlpersist import SQLPersist
+from persistfactory import get_sqlpersist, get_filepersist
 import os
-
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
 app.config.update(
     dict(
         DEBUG=True,
     )
 )
 
-host = "192.168.1.100"
-user = "root"
-password = os.getenv('MARIAPASS')
-port = 30306
-database = "worktime"
-table = "hours"
-p = SQLPersist(host, user, password, port, database, create=True)
-id_query = "id MEDIUMINT NOT NULL AUTO_INCREMENT"
-primary = "PRIMARY KEY(id)"
-create_table_query = f"""CREATE TABLE {database}.{table}({id_query},
-    leaving VARCHAR(10),
-    {primary}
-    )"""
-p.create_table(create_table_query, table)
-
-
 @app.route("/")
 def message():
     h = HaysHours()
-    p = SQLPersist(host, user, password, port, database, create=False)
+    # p = SQLPersist(host, user, password, port, database, create=False)
     h.set_db(p)
     lastHourSaved = h.getLastSaved()
     if len(lastHourSaved) > 0:
@@ -44,7 +26,7 @@ def message():
 @app.route("/end/<elapsed>")
 def end_hour(elapsed):
     h = HaysHours()
-    p = SQLPersist(host, user, password, port, database, create=False)
+    # p = SQLPersist(host, user, password, port, database, create=False)
     h.set_db(p)
     endHour = h.getEnd(elapsed)
     return endHour
@@ -52,7 +34,7 @@ def end_hour(elapsed):
 
 @app.route("/last")
 def last():
-    p = SQLPersist(host, user, password, port, database, create=False)
+    # p = SQLPersist(host, user, password, port, database, create=False)
     return p.readLast()
 
 
@@ -61,7 +43,6 @@ def calc():
     if request.method == "POST":
         req = request.form
         h = HaysHours()
-        p = SQLPersist(host, user, password, port, database, create=False)
         h.set_db(p)
         lastHourSaved = h.getLastSaved()
         elapsed = req.get("elapsed")
@@ -79,7 +60,6 @@ def calc():
         else:
             return render_template("form.html", endHour=endHour, elapsed=elapsed)
     else:
-        p = SQLPersist(host, user, password, port, database, create=False)
         lastHourSaved = p.readLast()
         if lastHourSaved:
             return render_template("form.html", lastHourSaved=lastHourSaved)
@@ -88,4 +68,10 @@ def calc():
 
 
 if __name__ == "__main__":
+    SERVER_TYPE = os.getenv('SERVER_TYPE', 'FILE')
+    if SERVER_TYPE == 'SQL':
+        p = get_sqlpersist()
+    else:
+        p = get_filepersist()
+
     app.run(host="0.0.0.0")

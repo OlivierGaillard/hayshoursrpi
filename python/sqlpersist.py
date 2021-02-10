@@ -25,12 +25,12 @@ class SQLPersist(Persistable):
         """
         Create database. If  it does exist we catch the error.
         """
-        self.create_connection()
+        self.__create_connection()
         if self.create:
             if not self.database_exists(self.database):
                 self.create_database()
 
-    def create_connection(self):
+    def __create_connection(self):
         try:
             self.connection = connect(
                 host=self.host,
@@ -39,18 +39,6 @@ class SQLPersist(Persistable):
                 port=self.port,
             )
             # print(self.connection.get_server_info())
-        except Error as e:
-            print(e)
-
-    def create_connection_with_db(self, dbname):
-        try:
-            self.connection = connect(
-                host=self.host,
-                user=self.user,
-                password=self.password,
-                port=self.port,
-                database=dbname,
-            )
         except Error as e:
             print(e)
 
@@ -68,7 +56,7 @@ class SQLPersist(Persistable):
             table_name: the table name
         '''
         if not self.connection.is_connected():
-            self.create_connection()
+            self.__create_connection()
         if not self.table_exists(table_name):
             try:
                 with self.connection.cursor() as cursor:
@@ -79,7 +67,7 @@ class SQLPersist(Persistable):
     def save(self, result):
         save_query = "INSERT INTO hours(leaving)  VALUES ('" + result + "')"
         if not self.connection.is_connected():
-            self.create_connection()
+            self.__create_connection()
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute("USE " + self.database)
@@ -91,7 +79,7 @@ class SQLPersist(Persistable):
     def readLast(self):
         getlast_query = "select leaving from hours where id = (select max(id) from hours)"
         if not self.connection.is_connected():
-            self.create_connection()
+            self.__create_connection()
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute("USE " + self.database)
@@ -106,7 +94,7 @@ class SQLPersist(Persistable):
 
     def list_database(self):
         if not self.connection.is_connected():
-            self.create_connection()
+            self.__create_connection()
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute("SHOW DATABASES")
@@ -126,7 +114,7 @@ class SQLPersist(Persistable):
 
     def table_exists(self, table):
         if not self.connection.is_connected():
-            self.create_connection()
+            self.__create_connection()
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute("USE " + self.database)

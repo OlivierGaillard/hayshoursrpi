@@ -11,8 +11,8 @@ class TestServer(unittest.TestCase):
         Intrusive test! It will not delete the
         entries created in database 'worktime'.
 
-        It uses the flask API defined in 'server.py' and does no
-        direct usage of the database.
+        It uses the flask API defined in 'server.py' and does not
+        directly access the database.
     '''
 
     URL  = K8S
