@@ -14,7 +14,6 @@ app.config.update(
 @app.route("/")
 def message():
     h = HaysHours()
-    # p = SQLPersist(host, user, password, port, database, create=False)
     h.set_db(p)
     lastHourSaved = h.getLastSaved()
     if len(lastHourSaved) > 0:
@@ -26,7 +25,6 @@ def message():
 @app.route("/end/<elapsed>")
 def end_hour(elapsed):
     h = HaysHours()
-    # p = SQLPersist(host, user, password, port, database, create=False)
     h.set_db(p)
     endHour = h.getEnd(elapsed)
     return endHour
@@ -34,7 +32,6 @@ def end_hour(elapsed):
 
 @app.route("/last")
 def last():
-    # p = SQLPersist(host, user, password, port, database, create=False)
     return p.readLast()
 
 

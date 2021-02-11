@@ -29,13 +29,13 @@ spec:
   template:
     metadata:
       annotations:
-        hayshoursrpi/change-cause: "Smaller multi-stage with venv"
+        hayshoursrpi/change-cause: "persistfactory.py returns sql or file saving"
       labels:
         app: hayshours
     spec:
       containers:
         - name: hayshours
-          image: gaillardo/hayshoursrpi:sql-v2
+          image: gaillardo/hayshoursrpi:sql-v3
           env:
           - name: MARIAPASS
             value: orionScanner103

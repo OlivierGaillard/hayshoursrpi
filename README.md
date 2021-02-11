@@ -4,8 +4,8 @@
 
 ## Todo
 
-- integrate the server which uses `persistfactory` in K8S
-- build the tiny image used for file persistence
+- build the tiny image used for file persistence deployment `deployment_raspi_file.yaml`
+
 
 ## History and Purpose
 
@@ -34,18 +34,19 @@ This image is defined in the `Dockefile`.
 - Unittests define tests for calculation and persistence.
 - They are two implementations with `FilePersist` and `SQLPersist`.
 - Depending on variable `STATEFUL_TYPE` the `server.py`
-  will call the `persistfactory` to use a database or a
-  file to save its data.
+  will get from `persistfactory` either a database or a
+  file solution to save its data.
 
 ### Kubernetes Deployments
 
 Two deployments match the two implementations of persistence:
 
-1. Deployment with file persistence; it is defined in
+1. Deployment with SQL persistence; it is defined in
    `deployment_raspi_sql.yaml`.
 
-2. Deployment with database persistence; it is defined in
-   `deployment_raspi_datavol.yaml`
+2. Deployment with file persistence; it is defined in
+   `deployment_raspi_file.yaml`. The container image is smaller
+   than the database version.
 
 ## Building the Home Cluster
 

@@ -19,6 +19,7 @@ COPY python/ /app/python/
 COPY --from=pylib-image /opt/venv /opt/venv
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV STATEFUL_TYPE=SQL
 WORKDIR /app
 EXPOSE 5000
 CMD ["python", "/app/python/server.py"]
