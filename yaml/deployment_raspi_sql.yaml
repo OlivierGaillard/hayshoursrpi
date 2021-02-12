@@ -29,13 +29,13 @@ spec:
   template:
     metadata:
       annotations:
-        hayshoursrpi/change-cause: "persistfactory.py returns sql or file saving"
+        hayshoursrpi/change-cause: "html page shows statefule-type"
       labels:
         app: hayshours
     spec:
       containers:
         - name: hayshours
-          image: gaillardo/hayshoursrpi:sql-v3
+          image: gaillardo/hayshoursrpi:sql-v4
           env:
           - name: MARIAPASS
             value: orionScanner103

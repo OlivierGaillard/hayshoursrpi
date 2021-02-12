@@ -3,9 +3,7 @@
 ## Status: Draft
 
 ## Todo
-
-- build the tiny image used for file persistence deployment `deployment_raspi_file.yaml`
-
+- update the sql image with stateful-type displayed on html form
 
 ## History and Purpose
 
@@ -26,7 +24,20 @@ to Flask.
 
 ### Core Container Image
 
-This image is defined in the `Dockefile`.
+This image is defined in `Dockefile` and `Dockerfile_file`.
+
+The first default Dockerfile uses SQL for persistence, whereas the other
+uses a file. Each image matches the services `hoursservice` and
+`hoursservice-file`.
+
+Accessing the nodeport 30038 of the service *hours-service-file*
+at e.g. `http://192.168.1.100:30038/` displays an html page with,
+at the bottom, the stateful-type used.
+
+
+![page](html.png)
+
+The same holds for the other service *hours-service* at port 30036.
 
 - Flask is used both for a formular and for the API; see `server.py`.
 - Time calculation is implemented in `Hayshours`.
