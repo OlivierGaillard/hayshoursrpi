@@ -12,6 +12,7 @@ class SQLPersist(Persistable):
     re_mysql = "mysql"
 
     def __init__(self, host, user, password, port, database, create=True):
+        self.stateful_type = "SQL"
         self.host = host
         self.user = user
         self.password = password
@@ -20,6 +21,9 @@ class SQLPersist(Persistable):
         self.connection = None
         self.create = create
         self.initStorage()
+
+    def get_stateful_type(self):
+        return self.stateful_type
 
     def initStorage(self):
         """
@@ -51,10 +55,10 @@ class SQLPersist(Persistable):
             print(e)
 
     def create_table(self, table_query, table_name):
-        '''
-            table_query: full table query
-            table_name: the table name
-        '''
+        """
+        table_query: full table query
+        table_name: the table name
+        """
         if not self.connection.is_connected():
             self.__create_connection()
         if not self.table_exists(table_name):
@@ -77,7 +81,9 @@ class SQLPersist(Persistable):
             print(e)
 
     def readLast(self):
-        getlast_query = "select leaving from hours where id = (select max(id) from hours)"
+        getlast_query = (
+            "select leaving from hours where id = (select max(id) from hours)"
+        )
         if not self.connection.is_connected():
             self.__create_connection()
         try:
@@ -120,7 +126,7 @@ class SQLPersist(Persistable):
                 cursor.execute("USE " + self.database)
                 cursor.execute("SHOW TABLES")
                 rows = cursor.fetchall()
-                tmp =[d[0] for d in rows]
+                tmp = [d[0] for d in rows]
                 return table in tmp
         except Error as e:
             print(e)

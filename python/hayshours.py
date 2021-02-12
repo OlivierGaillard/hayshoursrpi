@@ -16,7 +16,7 @@ class HaysHours(object):
         self.db = db
 
     def getEnd(self, elapsed):
-        if len(elapsed) == 0 or elapsed == '0':
+        if len(elapsed) == 0 or elapsed == "0":
             return ""
         elapsed = float(elapsed)
         end_hour_dec = self.start_hour + elapsed
@@ -31,20 +31,20 @@ class HaysHours(object):
         hours = int(end_hour_dec)
         minutes = (end_hour_dec * 60) % 60
         seconds = round((end_hour_dec * 3600)) % 60
-        hh = '{:02.0f}'.format(hours)
-        mn = '{:02.0f}'.format(minutes)
-        sc = '{:02.0f}'.format(seconds)
-        result = '{}:{}:{}'.format(hh, mn, sc)
+        hh = "{:02.0f}".format(hours)
+        mn = "{:02.0f}".format(minutes)
+        sc = "{:02.0f}".format(seconds)
+        result = "{}:{}:{}".format(hh, mn, sc)
         if self.db is not None:
             self.saveResult(result)
         return result
 
     def saveResult(self, result):
-        '''Save the quitting time h:m:s'''
+        """Save the quitting time h:m:s"""
         self.db.save(result)
 
     def getLastSaved(self):
-        '''Return the last quitting time h:m:s'''
+        """Return the last quitting time h:m:s"""
         return self.db.readLast()
 
 
@@ -56,10 +56,10 @@ def main(start_hour):
 
 if __name__ == "__main__":
     if len(argv) == 1:
-        print('missing argument start-hour')
+        print("missing argument start-hour")
         exit(-1)
     start_hour = argv[1]
     if len(start_hour) == 0:
-        print('start-hour is empty string')
+        print("start-hour is empty string")
         exit(-1)
     main(start_hour)

@@ -4,8 +4,6 @@
 
 ## Todo
 
-- refactor `server.py` and `persistfactory` to import `SQLPersist` only
-  it required; reason is to avoid all the stuff for MariaDB. 
 - build the tiny image used for file persistence deployment `deployment_raspi_file.yaml`
 
 

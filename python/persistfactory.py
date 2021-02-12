@@ -1,5 +1,3 @@
-from filepersist import FilePersist
-from sqlpersist import SQLPersist
 import os
 
 
@@ -9,6 +7,8 @@ def get_filepersist():
     """
     rootdir = os.getenv("ROOTDIR", "./tmp")
     dbname = "db1"
+    from filepersist import FilePersist
+
     return FilePersist(rootdir, dbname)
 
 
@@ -23,6 +23,8 @@ def get_sqlpersist():
     port = 30306
     database = "worktime"
     table = "hours"
+    from sqlpersist import SQLPersist
+
     p = SQLPersist(host, user, password, port, database, create=True)
     id_query = "id MEDIUMINT NOT NULL AUTO_INCREMENT"
     primary = "PRIMARY KEY(id)"
