@@ -4,6 +4,7 @@
 
 ## Todo
 
+- multi-architecture build for the stateful "file" version
 - update the sql image with stateful-type displayed on html form
 
 ## History and Purpose
