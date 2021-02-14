@@ -29,13 +29,13 @@ spec:
   template:
     metadata:
       annotations:
-        hayshoursrpi/change-cause: "html page shows statefule-type"
+        hayshoursrpi/change-cause: "multiple architectures build" 
       labels:
         app: hayshours
     spec:
       containers:
         - name: hayshours
-          image: gaillardo/hayshoursrpi:sql-v4
+          image: gaillardo/hayshoursrpi:sql-v4-mularch
           env:
           - name: MARIAPASS
             value: orionScanner103

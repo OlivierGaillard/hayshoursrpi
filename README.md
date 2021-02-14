@@ -3,6 +3,7 @@
 ## Status: Draft
 
 ## Todo
+
 - update the sql image with stateful-type displayed on html form
 
 ## History and Purpose
@@ -80,8 +81,16 @@ Once `kubectl proxy` is running we can access the dashboard.
 
 ### Node `n3` for Docker
 
-I use this node to build raspberry pi container with `docker`.
-It could be any other node.
+I used this node to build raspberry pi container with `docker`.
+Since I switch to multi-architecture with `docker buildx` and
+don't need to use the pi any more.
+
+It only requires a base multi-architecture OS and specifying
+which architecture on command line:
+
+``docker buildx build --platform linux/amd64,linux/arm/v7,linux/aarch64 --tag gaillardo/hayshoursrpi:sql-v4-mularch -f Dockerfile_arch --push .
+``
+It cannot be built locally. See a good tutorial [here](https://starkandwayne.com/blog/building-docker-images-for-kubernetes-on-arm/).
 
 ## Create a Virtualenv with Python3
 
