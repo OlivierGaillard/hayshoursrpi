@@ -13,7 +13,6 @@ class TestServer(unittest.TestCase):
         It uses the flask API defined in 'server.py' and does not
         directly access the database.
     '''
-    URL  = LOCAL
 
     @classmethod
     def setUpClass(cls):
@@ -23,16 +22,16 @@ class TestServer(unittest.TestCase):
             unittest.TestCase.skipTest(cls, 'Flask is not running locally')
 
     def test_calcformpage(self):
-        r = requests.get(TestServer.URL  + 'calc')
+        r = requests.get(LOCAL  + 'calc')
         self.assertEqual(200, r.status_code)
 
     def test_end(self):
-        r = requests.get(TestServer.URL + 'end/8.5')
+        r = requests.get(LOCAL + 'end/8.5')
         self.assertEqual('16:30:00', r.text)
 
     def test_last(self):
-        u = requests.get(TestServer.URL + 'end/9')
-        r = requests.get(TestServer.URL + 'last')
+        u = requests.get(LOCAL + 'end/9')
+        r = requests.get(LOCAL + 'last')
         self.assertEqual('17:30:00', r.text)
 
 
