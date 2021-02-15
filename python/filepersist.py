@@ -41,6 +41,7 @@ class FilePersist(Persistable):
         if count > 0:
             lastLine = len(lines) - 1
             lastItem = lines[lastLine]
+            lastItem = lastItem.replace('\n','')
             return lastItem
         else:
             return ""

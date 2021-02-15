@@ -1,4 +1,4 @@
-FROM hypriot/rpi-alpine AS pylib-image 
+FROM golang:alpine AS pylib-image
 RUN apk update && apk add bash
 RUN apk add python3
 RUN apk add build-base
@@ -10,7 +10,7 @@ ADD requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-FROM hypriot/rpi-alpine AS build-image
+FROM golang:alpine AS build-image
 RUN apk update && apk add bash
 RUN apk add python3
 RUN mkdir -p /app/python/test

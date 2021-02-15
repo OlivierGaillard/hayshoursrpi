@@ -1,4 +1,4 @@
-FROM hypriot/rpi-alpine AS pylib-image
+FROM golang:alpine AS pylib-image
 RUN apk update && apk add bash
 RUN apk add python3
 ENV VIRTUAL_ENV=/opt/venv
@@ -8,7 +8,7 @@ COPY requirements_file.txt ./requirements.txt
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-FROM hypriot/rpi-alpine AS build-image
+FROM golang:alpine AS build-image
 RUN apk update && apk add bash
 RUN apk add python3
 RUN mkdir -p /app/python/test
@@ -21,4 +21,3 @@ ENV STATEFUL_TYPE=FILE
 WORKDIR /app
 EXPOSE 5000
 CMD ["python", "/app/python/server.py"]
-

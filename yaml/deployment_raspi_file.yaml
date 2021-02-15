@@ -30,7 +30,7 @@ spec:
   template:
     metadata:
       annotations:
-        hayshourrpi-file/change-cause: "refactor without sql code"
+        hayshourrpi-file/change-cause: "fix LF bug and refactor"
       labels:
         run: hoursdata-file
     spec:
@@ -41,7 +41,7 @@ spec:
             type: Directory
       containers:
       - name: hoursdata
-        image: gaillardo/hayshoursrpi:file-v2
+        image: gaillardo/hayshoursrpi:file-v3
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
