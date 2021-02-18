@@ -4,6 +4,8 @@
 
 ## Todo
 
+- use secrets for password db
+- Use configmap to initialize db
 - MariaDB persistence with StatefulSet
 
 ## History and Purpose
@@ -82,8 +84,8 @@ Once `kubectl proxy` is running we can access the dashboard.
 ### Node `n3` for Docker
 
 I used this node to build raspberry pi container with `docker`.
-Since I switch to multi-architecture with `docker buildx` and
-don't need to use the pi any more.
+Since I switched to multi-architecture with `docker buildx` 
+I don't need to use the Pi any more.
 
 It only requires a base multi-architecture OS and specifying
 which architecture on command line:
