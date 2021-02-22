@@ -4,7 +4,6 @@
 
 ## Todo
 
-- use secrets for password db
 - Use configmap to initialize db
 - MariaDB persistence with StatefulSet
 
