@@ -7,6 +7,7 @@
 - Use namespace for the application
 - Use configmap to initialize db
 - End-to-end test
+- Integrate ZAP Pentesting
 
 ## History and Purpose
 
