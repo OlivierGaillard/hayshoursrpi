@@ -4,8 +4,9 @@
 
 ## Todo
 
+- Use namespace for the application
 - Use configmap to initialize db
-- MariaDB persistence with StatefulSet
+- End-to-end test
 
 ## History and Purpose
 
